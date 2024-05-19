@@ -1,6 +1,6 @@
 import express, { Express } from "express";
 import mongoose from "mongoose";
-import financialRecordRouter from "./routes/financial-records";
+import financialRecordRouter from "./routes/financial-records.js";
 import cors from "cors";
 
 const app: Express = express();
@@ -9,13 +9,16 @@ const port = process.env.PORT || 3001;
 app.use(express.json());
 app.use(cors());
 
-const mongoURI: string =
-  "mongodb+srv://machadop1407:UvOUTpZW7EH85MZl@personalfinancetracker.qb0edtk.mongodb.net/";
+// Replace this with your MongoDB cluster connection string.
+const mongoURI = "";
 
-mongoose
-  .connect(mongoURI)
-  .then(() => console.log("CONNECTED TO MONGODB!"))
-  .catch((err) => console.error("Failed to Connect to MongoDB:", err));
+try {
+  console.log("Connecting to MongoDB...");
+  await mongoose.connect(mongoURI);
+  console.log("Connected.");
+} catch (err) {
+  console.error(`Unable to connect to MongoDB:\n${err}`);
+}
 
 app.use("/financial-records", financialRecordRouter);
 
